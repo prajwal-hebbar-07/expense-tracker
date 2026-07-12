@@ -3,19 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "description": "Expense tracking application with AI-powered categorization",
+  "packageManager": "pnpm@11.11.0",
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "seed": "pnpm --filter @expense-tracker/db seed"
   },
   "keywords": ["expense", "tracker", "finance"],
   "author": "Prajwal Hebbar",
   "license": "MIT",
   "devDependencies": {
-    "turbo": "latest"
-  },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+    "turbo": "^2.3.0"
+  }
 }

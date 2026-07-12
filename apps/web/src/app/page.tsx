@@ -11,18 +11,24 @@ export default function Home() {
           <p className="text-lg text-muted-foreground mb-8">
             Track your spending and get AI-powered insights to save more money
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex flex-wrap gap-4 justify-center">
             <Link
               href="/transactions"
               className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition"
             >
-              Get Started
+              Add Expenses
             </Link>
             <Link
-              href="/analytics"
+              href="/reports"
               className="px-8 py-3 bg-secondary text-secondary-foreground border border-border rounded-lg font-semibold hover:bg-muted transition"
             >
-              View Analytics
+              Reports
+            </Link>
+            <Link
+              href="/advice"
+              className="px-8 py-3 bg-secondary text-secondary-foreground border border-border rounded-lg font-semibold hover:bg-muted transition"
+            >
+              Advice
             </Link>
           </div>
         </div>

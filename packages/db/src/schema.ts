@@ -21,3 +21,8 @@ export const categories = sqliteTable('categories', {
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
 });
+
+export type Transaction = typeof transactions.$inferSelect;
+export type NewTransaction = typeof transactions.$inferInsert;
+export type Category = typeof categories.$inferSelect;
+export type NewCategory = typeof categories.$inferInsert;

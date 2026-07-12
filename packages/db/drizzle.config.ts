@@ -4,5 +4,7 @@ export default defineConfig({
   dialect: 'sqlite',
   schema: './src/schema.ts',
   out: './migrations',
-  driver: 'better-sqlite3',
+  dbCredentials: {
+    url: process.env.DATABASE_URL?.replace('file:', '') ?? '../../expense.db',
+  },
 });
