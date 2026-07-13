@@ -6,6 +6,7 @@ const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Expected YYYY-MM-DD');
 
 export const transactionFilterSchema = z.object({
   type: z.enum(['debit', 'credit']).optional(),
+  account: z.coerce.number().int().positive().optional(),
   from: isoDate.optional(),
   to: isoDate.optional(),
 });
@@ -13,6 +14,7 @@ export const transactionFilterSchema = z.object({
 export const newTransactionSchema = z.object({
   amount: z.coerce.number().positive('Amount must be greater than zero'),
   type: z.enum(['debit', 'credit']),
+  accountId: z.coerce.number().int().positive('Choose a bank account'),
   description: z.string().trim().min(1, 'Description is required').max(500),
   date: isoDate.default(() => new Date().toISOString().slice(0, 10)),
 });
@@ -22,6 +24,7 @@ export type TransactionFilters = z.infer<typeof transactionFilterSchema>;
 export function getTransactions(filters: TransactionFilters): Transaction[] {
   const conditions: SQL[] = [];
   if (filters.type) conditions.push(eq(transactions.type, filters.type));
+  if (filters.account) conditions.push(eq(transactions.accountId, filters.account));
   if (filters.from) conditions.push(gte(transactions.date, filters.from));
   if (filters.to) conditions.push(lte(transactions.date, filters.to));
 

@@ -1,4 +1,5 @@
-import { db, transactions } from '@expense-tracker/db';
+import { bankAccounts, db, transactions } from '@expense-tracker/db';
+import { eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
 import {
@@ -34,6 +35,15 @@ export async function POST(request: NextRequest) {
       { error: 'Invalid transaction', details: parsed.error.flatten().fieldErrors },
       { status: 400 },
     );
+  }
+
+  const account = db
+    .select({ id: bankAccounts.id })
+    .from(bankAccounts)
+    .where(eq(bankAccounts.id, parsed.data.accountId))
+    .get();
+  if (!account) {
+    return NextResponse.json({ error: 'Bank account not found' }, { status: 400 });
   }
 
   const [created] = await db.insert(transactions).values(parsed.data).returning();

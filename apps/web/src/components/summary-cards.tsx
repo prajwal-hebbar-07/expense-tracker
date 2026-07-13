@@ -8,7 +8,15 @@ type Summary = {
   count: number;
 };
 
-export function SummaryCards({ summary }: { summary: Summary }) {
+export function SummaryCards({
+  summary,
+  balance,
+  balanceLabel = 'Balance',
+}: {
+  summary: Summary;
+  balance?: number;
+  balanceLabel?: string;
+}) {
   const cards = [
     {
       label: 'Money in',
@@ -25,9 +33,9 @@ export function SummaryCards({ summary }: { summary: Summary }) {
       iconTone: 'bg-rose-50 text-rose-600',
     },
     {
-      label: 'Balance',
-      value: summary.balance,
-      tone: summary.balance >= 0 ? 'text-slate-950' : 'text-rose-600',
+      label: balanceLabel,
+      value: balance ?? summary.balance,
+      tone: (balance ?? summary.balance) >= 0 ? 'text-slate-950' : 'text-rose-600',
       icon: Wallet,
       iconTone: 'bg-slate-100 text-slate-700',
     },

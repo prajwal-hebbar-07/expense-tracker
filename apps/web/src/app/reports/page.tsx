@@ -16,7 +16,7 @@ export default function ReportsPage() {
   const report = buildReport();
   const { totals } = report;
 
-  if (totals.count === 0) {
+  if (totals.count === 0 && report.accounts.length === 0) {
     return (
       <div className="page-shell">
         <div className="mx-auto max-w-5xl">
@@ -44,8 +44,8 @@ export default function ReportsPage() {
       tone: 'text-foreground',
     },
     {
-      label: 'Avg spend per active day',
-      value: formatAmount(totals.avgDailySpend),
+      label: 'Combined bank balance',
+      value: formatAmount(report.totalBankBalance),
       tone: 'text-foreground',
     },
   ];
@@ -118,6 +118,56 @@ export default function ReportsPage() {
         </div>
 
         <CategoryBars items={report.categories} />
+
+        <div className="surface overflow-hidden">
+          <div className="border-b border-slate-100 px-5 py-4 sm:px-6">
+            <h2 className="text-base font-semibold text-slate-950">Spending by bank</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Individual account activity and consolidated balances
+            </p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-slate-100 bg-slate-50/70 text-left text-xs uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-3 font-medium">Bank</th>
+                  <th className="px-6 py-3 text-right font-medium">Money in</th>
+                  <th className="px-6 py-3 text-right font-medium">Spent</th>
+                  <th className="px-6 py-3 text-right font-medium">Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {report.accounts.map((account) => (
+                  <tr key={account.id ?? 'unassigned'} className="border-b border-slate-100 last:border-0">
+                    <td className="px-6 py-4">
+                      <span className="font-medium text-slate-900">{account.name}</span>
+                      <span className="ml-2 text-xs text-slate-400">
+                        {account.count} transaction{account.count === 1 ? '' : 's'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-right text-emerald-700">
+                      {formatAmount(account.credit)}
+                    </td>
+                    <td className="px-6 py-4 text-right text-rose-600">
+                      {formatAmount(account.debit)}
+                    </td>
+                    <td className="px-6 py-4 text-right font-semibold text-slate-900">
+                      {account.currentBalance === null ? '—' : formatAmount(account.currentBalance)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr className="bg-emerald-50/60 font-semibold text-emerald-900">
+                  <td className="px-6 py-4">Consolidated</td>
+                  <td className="px-6 py-4 text-right">{formatAmount(totals.credit)}</td>
+                  <td className="px-6 py-4 text-right">{formatAmount(totals.debit)}</td>
+                  <td className="px-6 py-4 text-right">{formatAmount(report.totalBankBalance)}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
 
         <div className="surface p-5 sm:p-6">
           <h2 className="mb-4 text-base font-semibold text-slate-950">Largest expenses</h2>

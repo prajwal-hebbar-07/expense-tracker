@@ -1,12 +1,14 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
-const inputClass =
-  'field w-full';
+import type { AccountWithStats } from '@/lib/accounts';
 
-export function TransactionForm() {
+const inputClass = 'field w-full';
+
+export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) {
   const router = useRouter();
   const [type, setType] = useState<'debit' | 'credit'>('debit');
   const [submitting, setSubmitting] = useState(false);
@@ -25,6 +27,7 @@ export function TransactionForm() {
       body: JSON.stringify({
         amount: data.get('amount'),
         type,
+        accountId: data.get('accountId'),
         description: data.get('description'),
         date: data.get('date'),
       }),
@@ -76,6 +79,26 @@ export function TransactionForm() {
 
       <div className="space-y-4">
         <div>
+          <label htmlFor="accountId" className="mb-1 block text-sm font-medium">
+            Bank account
+          </label>
+          {accounts.length > 0 ? (
+            <select id="accountId" name="accountId" required className={inputClass} defaultValue="">
+              <option value="" disabled>Choose an account</option>
+              {accounts.map((account) => (
+                <option key={account.id} value={account.id}>{account.name}</option>
+              ))}
+            </select>
+          ) : (
+            <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+              Add a bank account in{' '}
+              <Link href="/settings" className="font-semibold underline underline-offset-4">Settings</Link>{' '}
+              before recording transactions.
+            </div>
+          )}
+        </div>
+
+        <div>
           <label htmlFor="amount" className="mb-1 block text-sm font-medium">
             Amount
           </label>
@@ -125,7 +148,7 @@ export function TransactionForm() {
 
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || accounts.length === 0}
           className="primary-button mt-1 w-full"
         >
           {submitting ? 'Saving…' : `Add ${type}`}

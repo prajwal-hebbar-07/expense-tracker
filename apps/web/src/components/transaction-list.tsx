@@ -5,16 +5,35 @@ import { Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import type { AccountWithStats } from '@/lib/accounts';
 import { formatAmount, formatDate } from '@/lib/format';
 
-export function TransactionList({ transactions }: { transactions: Transaction[] }) {
+export function TransactionList({
+  transactions,
+  accounts,
+}: {
+  transactions: Transaction[];
+  accounts: AccountWithStats[];
+}) {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [updatingId, setUpdatingId] = useState<number | null>(null);
 
   async function handleDelete(id: number) {
     setDeletingId(id);
     const response = await fetch(`/api/transactions/${id}`, { method: 'DELETE' });
     setDeletingId(null);
+    if (response.ok) router.refresh();
+  }
+
+  async function handleAccountChange(id: number, value: string) {
+    setUpdatingId(id);
+    const response = await fetch(`/api/transactions/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ accountId: value ? Number(value) : null }),
+    });
+    setUpdatingId(null);
     if (response.ok) router.refresh();
   }
 
@@ -34,6 +53,7 @@ export function TransactionList({ transactions }: { transactions: Transaction[] 
             <th className="px-4 py-3.5 font-medium">Date</th>
             <th className="px-4 py-3.5 font-medium">Description</th>
             <th className="px-4 py-3.5 font-medium">Category</th>
+            <th className="px-4 py-3.5 font-medium">Bank</th>
             <th className="px-4 py-3.5 text-right font-medium">Amount</th>
             <th className="px-4 py-3" />
           </tr>
@@ -52,6 +72,24 @@ export function TransactionList({ transactions }: { transactions: Transaction[] 
                   </span>
                 ) : (
                   <span className="text-xs text-slate-400">Pending AI</span>
+                )}
+              </td>
+              <td className="whitespace-nowrap px-4 py-3.5 text-slate-500">
+                {accounts.length > 0 ? (
+                  <select
+                    value={tx.accountId ?? ''}
+                    onChange={(event) => handleAccountChange(tx.id, event.target.value)}
+                    disabled={updatingId === tx.id}
+                    aria-label={`Bank account for ${tx.description}`}
+                    className="rounded-lg border-0 bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600 outline-none transition focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50"
+                  >
+                    <option value="">Unassigned</option>
+                    {accounts.map((account) => (
+                      <option key={account.id} value={account.id}>{account.name}</option>
+                    ))}
+                  </select>
+                ) : (
+                  'Unassigned'
                 )}
               </td>
               <td

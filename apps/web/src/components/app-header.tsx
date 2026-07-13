@@ -5,6 +5,7 @@ import {
   FileText,
   Lightbulb,
   ReceiptText,
+  Settings2,
   WalletCards,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -15,6 +16,7 @@ const links = [
   { href: '/analytics', label: 'Analytics', icon: ChartNoAxesCombined },
   { href: '/reports', label: 'Reports', icon: FileText },
   { href: '/advice', label: 'Advice', icon: Lightbulb },
+  { href: '/settings', label: 'Settings', icon: Settings2 },
 ];
 
 export function AppHeader() {

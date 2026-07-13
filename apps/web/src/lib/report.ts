@@ -1,6 +1,8 @@
 import { db, transactions, type Transaction } from '@expense-tracker/db';
 import { desc } from 'drizzle-orm';
 
+import { getAccountOverview } from '@/lib/accounts';
+
 export type MonthRow = {
   month: string; // YYYY-MM
   credit: number;
@@ -22,6 +24,15 @@ export type Report = {
   months: MonthRow[];
   categories: { name: string; total: number; count: number }[];
   topExpenses: Transaction[];
+  accounts: {
+    id: number | null;
+    name: string;
+    currentBalance: number | null;
+    credit: number;
+    debit: number;
+    count: number;
+  }[];
+  totalBankBalance: number;
   uncategorized: number;
 };
 
@@ -61,6 +72,30 @@ export function buildReport(): Report {
   const categories = [...byCategory.values()].sort((a, b) => b.total - a.total);
 
   const spendDays = new Set(debits.map((tx) => tx.date)).size;
+  const accountOverview = getAccountOverview();
+  const accountRows: Report['accounts'] = accountOverview.accounts.map((account) => ({
+    id: account.id,
+    name: account.name,
+    currentBalance: account.currentBalance,
+    credit: account.credit,
+    debit: account.debit,
+    count: account.transactionCount,
+  }));
+  const unassigned = rows.filter((transaction) => transaction.accountId === null);
+  if (unassigned.length > 0) {
+    accountRows.push({
+      id: null,
+      name: 'Unassigned',
+      currentBalance: null,
+      credit: unassigned
+        .filter((transaction) => transaction.type === 'credit')
+        .reduce((sum, transaction) => sum + transaction.amount, 0),
+      debit: unassigned
+        .filter((transaction) => transaction.type === 'debit')
+        .reduce((sum, transaction) => sum + transaction.amount, 0),
+      count: unassigned.length,
+    });
+  }
 
   return {
     totals: {
@@ -77,6 +112,8 @@ export function buildReport(): Report {
     months: [...byMonth.values()].sort((a, b) => b.month.localeCompare(a.month)),
     categories,
     topExpenses: [...debits].sort((a, b) => b.amount - a.amount).slice(0, 5),
+    accounts: accountRows,
+    totalBankBalance: accountOverview.totalBalance,
     uncategorized: rows.filter((tx) => tx.category === null).length,
   };
 }
