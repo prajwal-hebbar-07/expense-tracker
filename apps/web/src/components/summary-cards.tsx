@@ -1,4 +1,5 @@
 import { formatAmount } from '@/lib/format';
+import { ArrowDownLeft, ArrowUpRight, Wallet } from 'lucide-react';
 
 type Summary = {
   credit: number;
@@ -9,28 +10,50 @@ type Summary = {
 
 export function SummaryCards({ summary }: { summary: Summary }) {
   const cards = [
-    { label: 'Credits', value: summary.credit, tone: 'text-emerald-600' },
-    { label: 'Debits', value: summary.debit, tone: 'text-red-600' },
+    {
+      label: 'Money in',
+      value: summary.credit,
+      tone: 'text-emerald-700',
+      icon: ArrowDownLeft,
+      iconTone: 'bg-emerald-50 text-emerald-700',
+    },
+    {
+      label: 'Money out',
+      value: summary.debit,
+      tone: 'text-rose-600',
+      icon: ArrowUpRight,
+      iconTone: 'bg-rose-50 text-rose-600',
+    },
     {
       label: 'Balance',
       value: summary.balance,
-      tone: summary.balance >= 0 ? 'text-emerald-600' : 'text-red-600',
+      tone: summary.balance >= 0 ? 'text-slate-950' : 'text-rose-600',
+      icon: Wallet,
+      iconTone: 'bg-slate-100 text-slate-700',
     },
   ];
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-      {cards.map((card) => (
+      {cards.map((card) => {
+        const Icon = card.icon;
+        return (
         <div
           key={card.label}
-          className="rounded-lg border border-border bg-white p-4 shadow-sm dark:bg-slate-800"
+          className="surface flex items-center justify-between gap-4 p-5"
         >
-          <p className="text-sm text-muted-foreground">{card.label}</p>
-          <p className={`mt-1 text-2xl font-bold ${card.tone}`}>
-            {formatAmount(card.value)}
-          </p>
+          <div>
+            <p className="text-sm font-medium text-slate-500">{card.label}</p>
+            <p className={`mt-1.5 text-2xl font-semibold tracking-tight ${card.tone}`}>
+              {formatAmount(card.value)}
+            </p>
+          </div>
+          <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${card.iconTone}`}>
+            <Icon className="h-5 w-5" />
+          </span>
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

@@ -37,59 +37,89 @@ export function InsightsPanel() {
   }
 
   return (
-    <div className="rounded-lg border border-border bg-white p-6 shadow-sm dark:bg-slate-800">
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <h2 className="text-lg font-semibold">Savings advice</h2>
+    <div className="surface overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 px-5 py-5 sm:px-6">
+        <div className="flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-amber-50 text-amber-600">
+            <Lightbulb className="h-5 w-5" />
+          </span>
+          <div>
+            <h2 className="text-base font-semibold text-slate-950">Your personalized plan</h2>
+            <p className="mt-0.5 text-sm text-slate-500">Built from your recent spending</p>
+          </div>
+        </div>
         <button
           type="button"
           onClick={generate}
           disabled={loading}
-          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
+          className="primary-button"
         >
           <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           {loading ? 'Analyzing…' : insights ? 'Regenerate' : 'Get advice'}
         </button>
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      <div className="p-5 sm:p-6">
+        {error && (
+          <div className="rounded-xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</div>
+        )}
 
-      {!insights && !error && !loading && (
-        <p className="text-sm text-muted-foreground">
-          Ask the AI to analyze your spending cycle and suggest where you can save.
-        </p>
-      )}
+        {!insights && !error && (
+          <div className="grid min-h-56 place-items-center rounded-xl border border-dashed border-slate-200 bg-slate-50/60 px-6 py-10 text-center">
+            <div>
+              <SparkleMark />
+              <p className="mt-4 font-medium text-slate-800">
+                {loading ? 'Reviewing your spending…' : 'Turn your transactions into a plan'}
+              </p>
+              <p className="mx-auto mt-1.5 max-w-md text-sm leading-6 text-slate-500">
+                {loading
+                  ? 'This usually takes just a moment.'
+                  : 'Ask the AI to spot patterns and suggest realistic ways to save each month.'}
+              </p>
+            </div>
+          </div>
+        )}
 
-      {insights && (
-        <div className="space-y-4">
-          <p className="text-sm leading-relaxed">{insights.overview}</p>
-          <ul className="space-y-3">
-            {insights.suggestions.map((suggestion) => (
-              <li
-                key={suggestion.title}
-                className="rounded-md border border-border p-4"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-2">
-                    <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-semibold">{suggestion.title}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {suggestion.detail}
-                      </p>
+        {insights && (
+          <div className="space-y-5">
+            <p className="text-sm leading-7 text-slate-700">{insights.overview}</p>
+            <ul className="space-y-3">
+              {insights.suggestions.map((suggestion) => (
+                <li
+                  key={suggestion.title}
+                  className="rounded-xl border border-slate-200 bg-slate-50/50 p-4"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-2">
+                      <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+                      <div>
+                        <p className="text-sm font-semibold">{suggestion.title}</p>
+                        <p className="mt-1 text-sm leading-6 text-slate-500">
+                          {suggestion.detail}
+                        </p>
+                      </div>
                     </div>
+                    {suggestion.estimatedMonthlySaving != null && (
+                      <span className="whitespace-nowrap text-sm font-semibold text-emerald-700">
+                        ~{formatAmount(suggestion.estimatedMonthlySaving)}/mo
+                      </span>
+                    )}
                   </div>
-                  {suggestion.estimatedMonthlySaving != null && (
-                    <span className="whitespace-nowrap text-sm font-semibold text-emerald-600">
-                      ~{formatAmount(suggestion.estimatedMonthlySaving)}/mo
-                    </span>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-          <p className="text-xs text-muted-foreground">Generated by {insights.model}</p>
-        </div>
-      )}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-slate-400">Generated by {insights.model}</p>
+          </div>
+        )}
+      </div>
     </div>
+  );
+}
+
+function SparkleMark() {
+  return (
+    <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-emerald-50 text-emerald-700">
+      <Lightbulb className="h-6 w-6" />
+    </span>
   );
 }

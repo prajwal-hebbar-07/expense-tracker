@@ -4,8 +4,7 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
 const inputClass =
-  'w-full rounded-md border border-border bg-background px-3 py-2 text-sm ' +
-  'focus:outline-none focus:ring-2 focus:ring-ring';
+  'field w-full';
 
 export function TransactionForm() {
   const router = useRouter();
@@ -49,22 +48,25 @@ export function TransactionForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-lg border border-border bg-white p-6 shadow-sm dark:bg-slate-800"
+      className="surface p-5 sm:p-6 lg:sticky lg:top-24"
     >
-      <h2 className="mb-4 text-lg font-semibold">Add transaction</h2>
+      <div className="mb-5">
+        <h2 className="text-base font-semibold text-slate-950">Add transaction</h2>
+        <p className="mt-1 text-sm text-slate-500">Record money in or out of your account.</p>
+      </div>
 
-      <div className="mb-4 grid grid-cols-2 gap-2 rounded-md bg-muted p-1">
+      <div className="mb-5 grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1">
         {(['debit', 'credit'] as const).map((option) => (
           <button
             key={option}
             type="button"
             onClick={() => setType(option)}
-            className={`rounded px-3 py-1.5 text-sm font-medium capitalize transition ${
+            className={`rounded-lg px-3 py-2 text-sm font-medium capitalize transition ${
               type === option
                 ? option === 'debit'
-                  ? 'bg-red-600 text-white'
-                  : 'bg-emerald-600 text-white'
-                : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-white text-rose-600 shadow-sm'
+                  : 'bg-white text-emerald-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-900'
             }`}
           >
             {option}
@@ -124,7 +126,7 @@ export function TransactionForm() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
+          className="primary-button mt-1 w-full"
         >
           {submitting ? 'Saving…' : `Add ${type}`}
         </button>

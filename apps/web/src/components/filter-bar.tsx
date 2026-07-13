@@ -3,8 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const fieldClass =
-  'rounded-md border border-border bg-background px-3 py-1.5 text-sm ' +
-  'focus:outline-none focus:ring-2 focus:ring-ring';
+  'field !py-2';
 
 export function FilterBar() {
   const router = useRouter();
@@ -21,7 +20,7 @@ export function FilterBar() {
   const hasFilters = ['type', 'from', 'to'].some((key) => searchParams.has(key));
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="flex flex-1 flex-wrap items-center gap-2.5">
       <select
         aria-label="Filter by type"
         value={searchParams.get('type') ?? ''}
@@ -33,8 +32,8 @@ export function FilterBar() {
         <option value="credit">Credits</option>
       </select>
 
-      <label className="flex items-center gap-2 text-sm text-muted-foreground">
-        From
+      <label className="flex items-center gap-2 text-sm text-slate-500">
+        <span className="sr-only sm:not-sr-only">From</span>
         <input
           type="date"
           value={searchParams.get('from') ?? ''}
@@ -43,8 +42,8 @@ export function FilterBar() {
         />
       </label>
 
-      <label className="flex items-center gap-2 text-sm text-muted-foreground">
-        To
+      <label className="flex items-center gap-2 text-sm text-slate-500">
+        <span className="sr-only sm:not-sr-only">To</span>
         <input
           type="date"
           value={searchParams.get('to') ?? ''}
@@ -57,7 +56,7 @@ export function FilterBar() {
         <button
           type="button"
           onClick={() => router.replace(pathname)}
-          className="text-sm text-muted-foreground underline hover:text-foreground"
+          className="px-2 text-sm font-medium text-slate-500 transition hover:text-slate-900"
         >
           Clear filters
         </button>

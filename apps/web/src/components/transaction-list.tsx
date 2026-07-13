@@ -20,43 +20,43 @@ export function TransactionList({ transactions }: { transactions: Transaction[] 
 
   if (transactions.length === 0) {
     return (
-      <div className="rounded-lg border border-dashed border-border p-10 text-center text-muted-foreground">
+      <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">
         No transactions yet. Add your first one on the left.
       </div>
     );
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-border bg-white shadow-sm dark:bg-slate-800">
+    <div className="surface max-w-full overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-border text-left text-muted-foreground">
-            <th className="px-4 py-3 font-medium">Date</th>
-            <th className="px-4 py-3 font-medium">Description</th>
-            <th className="px-4 py-3 font-medium">Category</th>
-            <th className="px-4 py-3 text-right font-medium">Amount</th>
+          <tr className="border-b border-slate-100 bg-slate-50/70 text-left text-xs uppercase tracking-wide text-slate-500">
+            <th className="px-4 py-3.5 font-medium">Date</th>
+            <th className="px-4 py-3.5 font-medium">Description</th>
+            <th className="px-4 py-3.5 font-medium">Category</th>
+            <th className="px-4 py-3.5 text-right font-medium">Amount</th>
             <th className="px-4 py-3" />
           </tr>
         </thead>
         <tbody>
           {transactions.map((tx) => (
-            <tr key={tx.id} className="border-b border-border last:border-0">
-              <td className="whitespace-nowrap px-4 py-3 text-muted-foreground">
+            <tr key={tx.id} className="group border-b border-slate-100 transition hover:bg-slate-50/60 last:border-0">
+              <td className="whitespace-nowrap px-4 py-3.5 text-slate-500">
                 {formatDate(tx.date)}
               </td>
-              <td className="px-4 py-3">{tx.description}</td>
-              <td className="px-4 py-3">
+              <td className="min-w-48 px-4 py-3.5 font-medium text-slate-800">{tx.description}</td>
+              <td className="px-4 py-3.5">
                 {tx.category ? (
-                  <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium">
+                  <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
                     {tx.category}
                   </span>
                 ) : (
-                  <span className="text-xs text-muted-foreground">pending AI</span>
+                  <span className="text-xs text-slate-400">Pending AI</span>
                 )}
               </td>
               <td
                 className={`whitespace-nowrap px-4 py-3 text-right font-semibold ${
-                  tx.type === 'credit' ? 'text-emerald-600' : 'text-red-600'
+                  tx.type === 'credit' ? 'text-emerald-700' : 'text-slate-900'
                 }`}
               >
                 {tx.type === 'credit' ? '+' : '−'}
@@ -68,7 +68,7 @@ export function TransactionList({ transactions }: { transactions: Transaction[] 
                   onClick={() => handleDelete(tx.id)}
                   disabled={deletingId === tx.id}
                   aria-label={`Delete ${tx.description}`}
-                  className="text-muted-foreground transition hover:text-red-600 disabled:opacity-50"
+                  className="rounded-lg p-1.5 text-slate-300 opacity-0 transition hover:bg-rose-50 hover:text-rose-600 focus:opacity-100 group-hover:opacity-100 disabled:opacity-50"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>

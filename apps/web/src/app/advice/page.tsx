@@ -10,12 +10,15 @@ export default function AdvicePage() {
   const pendingCount = rows.filter((tx) => tx.category === null).length;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-4xl space-y-6">
+    <div className="page-shell">
+      <div className="mx-auto max-w-5xl space-y-7">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Advice</h1>
-            <p className="mt-1 text-muted-foreground">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
+              Personal guidance
+            </p>
+            <h1 className="page-heading">Savings advice</h1>
+            <p className="page-description">
               AI-powered suggestions to change your spending cycle and save more
             </p>
           </div>

@@ -21,24 +21,29 @@ export default async function TransactionsPage({
   const pendingCount = getTransactions({}).filter((tx) => tx.category === null).length;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-5xl space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">Transactions</h1>
-          <p className="mt-1 text-muted-foreground">
+    <div className="page-shell">
+      <div className="space-y-7">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
+              Cash flow
+            </p>
+            <h1 className="page-heading">Transactions</h1>
+            <p className="page-description">
             {summary.count} transaction{summary.count === 1 ? '' : 's'}
             {filters.type || filters.from || filters.to ? ' (filtered)' : ''}
-          </p>
+            </p>
+          </div>
+          <CategorizeButton pendingCount={pendingCount} />
         </div>
 
         <SummaryCards summary={summary} />
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px_1fr]">
+        <div className="grid min-w-0 grid-cols-1 items-start gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
           <TransactionForm />
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0 space-y-4">
+            <div className="surface flex flex-wrap items-center justify-between gap-3 p-3">
               <FilterBar />
-              <CategorizeButton pendingCount={pendingCount} />
             </div>
             <TransactionList transactions={rows} />
           </div>

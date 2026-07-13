@@ -18,9 +18,9 @@ export default function ReportsPage() {
 
   if (totals.count === 0) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="mx-auto max-w-4xl">
-          <h1 className="text-3xl font-bold">Reports</h1>
+      <div className="page-shell">
+        <div className="mx-auto max-w-5xl">
+          <h1 className="page-heading">Reports</h1>
           <p className="mt-4 text-muted-foreground">
             No transactions yet — add some on the Transactions page and your
             reports will appear here.
@@ -51,55 +51,61 @@ export default function ReportsPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-4xl space-y-6">
+    <div className="page-shell">
+      <div className="mx-auto max-w-5xl space-y-7">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Reports</h1>
-            <p className="mt-1 text-muted-foreground">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
+              Financial health
+            </p>
+            <h1 className="page-heading">Reports</h1>
+            <p className="page-description">
               Your complete spending picture, {totals.count} transactions
             </p>
           </div>
           <CategorizeButton pendingCount={report.uncategorized} />
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {tiles.map((tile) => (
             <div
               key={tile.label}
-              className="rounded-lg border border-border bg-white p-4 shadow-sm dark:bg-slate-800"
+              className="surface p-4 sm:p-5"
             >
-              <p className="text-xs text-muted-foreground">{tile.label}</p>
-              <p className={`mt-1 text-lg font-bold ${tile.tone}`}>{tile.value}</p>
+              <p className="min-h-8 text-xs font-medium leading-4 text-slate-500">{tile.label}</p>
+              <p className={`mt-2 text-lg font-semibold tracking-tight ${tile.tone}`}>{tile.value}</p>
             </div>
           ))}
         </div>
 
-        <div className="rounded-lg border border-border bg-white p-6 shadow-sm dark:bg-slate-800">
-          <h2 className="mb-4 text-lg font-semibold">Month by month</h2>
+        <div className="surface overflow-hidden">
+          <div className="border-b border-slate-100 px-5 py-4 sm:px-6">
+            <h2 className="text-base font-semibold text-slate-950">Month by month</h2>
+            <p className="mt-1 text-sm text-slate-500">Income and outgoings over time</p>
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border text-left text-muted-foreground">
-                  <th className="py-2 pr-4 font-medium">Month</th>
-                  <th className="py-2 pr-4 text-right font-medium">Income</th>
-                  <th className="py-2 pr-4 text-right font-medium">Spending</th>
-                  <th className="py-2 text-right font-medium">Net</th>
+                <tr className="border-b border-slate-100 bg-slate-50/70 text-left text-xs uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-3 font-medium">Month</th>
+                  <th className="px-6 py-3 text-right font-medium">Income</th>
+                  <th className="px-6 py-3 text-right font-medium">Spending</th>
+                  <th className="px-6 py-3 text-right font-medium">Net</th>
                 </tr>
               </thead>
               <tbody>
                 {report.months.map((row) => (
-                  <tr key={row.month} className="border-b border-border last:border-0">
-                    <td className="py-2 pr-4 font-medium">{formatMonth(row.month)}</td>
-                    <td className="py-2 pr-4 text-right text-emerald-600">
+                  <tr key={row.month} className="border-b border-slate-100 last:border-0">
+                    <td className="px-6 py-4 font-medium text-slate-900">{formatMonth(row.month)}</td>
+                    <td className="px-6 py-4 text-right text-emerald-700">
                       {formatAmount(row.credit)}
                     </td>
-                    <td className="py-2 pr-4 text-right text-red-600">
+                    <td className="px-6 py-4 text-right text-rose-600">
                       {formatAmount(row.debit)}
                     </td>
                     <td
-                      className={`py-2 text-right font-semibold ${
-                        row.net >= 0 ? 'text-emerald-600' : 'text-red-600'
+                      className={`px-6 py-4 text-right font-semibold ${
+                        row.net >= 0 ? 'text-emerald-700' : 'text-rose-600'
                       }`}
                     >
                       {formatAmount(row.net)}
@@ -113,13 +119,13 @@ export default function ReportsPage() {
 
         <CategoryBars items={report.categories} />
 
-        <div className="rounded-lg border border-border bg-white p-6 shadow-sm dark:bg-slate-800">
-          <h2 className="mb-4 text-lg font-semibold">Largest expenses</h2>
-          <ul className="space-y-2">
+        <div className="surface p-5 sm:p-6">
+          <h2 className="mb-4 text-base font-semibold text-slate-950">Largest expenses</h2>
+          <ul>
             {report.topExpenses.map((tx) => (
               <li
                 key={tx.id}
-                className="flex items-baseline justify-between gap-4 border-b border-border pb-2 text-sm last:border-0"
+                className="flex items-center justify-between gap-4 border-b border-slate-100 py-3 text-sm first:pt-0 last:border-0 last:pb-0"
               >
                 <div>
                   <span className="font-medium">{tx.description}</span>
@@ -128,7 +134,7 @@ export default function ReportsPage() {
                     {tx.category ? ` · ${tx.category}` : ''}
                   </span>
                 </div>
-                <span className="whitespace-nowrap font-semibold text-red-600">
+                <span className="whitespace-nowrap font-semibold text-rose-600">
                   {formatAmount(tx.amount)}
                 </span>
               </li>

@@ -22,12 +22,15 @@ export default function AnalyticsPage() {
   const items = [...byCategory.values()].sort((a, b) => b.total - a.total);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-4xl space-y-6">
+    <div className="page-shell">
+      <div className="mx-auto max-w-5xl space-y-7">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Analytics & Insights</h1>
-            <p className="mt-1 text-muted-foreground">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
+              Spending patterns
+            </p>
+            <h1 className="page-heading">Analytics & insights</h1>
+            <p className="page-description">
               Where your money goes, and how to keep more of it
             </p>
           </div>
@@ -36,17 +39,17 @@ export default function AnalyticsPage() {
 
         <CategoryBars items={items} />
 
-        <p className="text-sm text-muted-foreground">
+        <div className="rounded-xl border border-emerald-100 bg-emerald-50/70 px-4 py-3 text-sm text-emerald-950">
           Looking for the full picture? See{' '}
-          <Link href="/reports" className="underline hover:text-foreground">
+          <Link href="/reports" className="font-semibold underline decoration-emerald-300 underline-offset-4">
             Reports
           </Link>{' '}
           for month-by-month numbers, or{' '}
-          <Link href="/advice" className="underline hover:text-foreground">
+          <Link href="/advice" className="font-semibold underline decoration-emerald-300 underline-offset-4">
             Advice
           </Link>{' '}
           for AI savings suggestions.
-        </p>
+        </div>
       </div>
     </div>
   );

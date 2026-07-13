@@ -38,14 +38,14 @@ export function CategorizeButton({ pendingCount }: { pendingCount: number }) {
         type="button"
         onClick={handleClick}
         disabled={busy || pendingCount === 0}
-        className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
+        className="secondary-button"
       >
         <Sparkles className="h-4 w-4" />
         {busy
           ? 'Categorizing…'
           : `Categorize ${pendingCount} with AI`}
       </button>
-      {message && <span className="text-sm text-muted-foreground">{message}</span>}
+      {message && <span className="text-sm text-slate-500">{message}</span>}
     </div>
   );
 }
