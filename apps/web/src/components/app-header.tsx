@@ -3,7 +3,6 @@
 import {
   ChartNoAxesCombined,
   FileText,
-  LayoutDashboard,
   Lightbulb,
   ReceiptText,
   WalletCards,
@@ -12,7 +11,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { href: '/', label: 'Overview', icon: LayoutDashboard },
   { href: '/transactions', label: 'Transactions', icon: ReceiptText },
   { href: '/analytics', label: 'Analytics', icon: ChartNoAxesCombined },
   { href: '/reports', label: 'Reports', icon: FileText },
@@ -25,7 +23,11 @@ export function AppHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-5 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Ledger home">
+        <Link
+          href="/transactions"
+          className="flex shrink-0 items-center gap-2.5"
+          aria-label="Ledger transactions"
+        >
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-700 text-white shadow-sm">
             <WalletCards className="h-[18px] w-[18px]" strokeWidth={2.2} />
           </span>
@@ -36,7 +38,7 @@ export function AppHeader() {
 
         <nav className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto" aria-label="Main navigation">
           {links.map(({ href, label, icon: Icon }) => {
-            const active = href === '/' ? pathname === '/' : pathname.startsWith(href);
+            const active = pathname.startsWith(href);
             return (
               <Link
                 key={href}
