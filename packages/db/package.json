@@ -9,6 +9,7 @@
   },
   "scripts": {
     "seed": "tsx src/seed.ts",
+    "db:reset": "tsx src/reset.ts",
     "db:push": "drizzle-kit push"
   },
   "dependencies": {

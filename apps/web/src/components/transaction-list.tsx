@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import type { AccountWithStats } from '@/lib/accounts';
+import { BankSelect } from '@/components/bank-select';
 import { formatAmount, formatDate } from '@/lib/format';
 
 export function TransactionList({
@@ -76,18 +77,15 @@ export function TransactionList({
               </td>
               <td className="whitespace-nowrap px-4 py-3.5 text-slate-500">
                 {accounts.length > 0 ? (
-                  <select
-                    value={tx.accountId ?? ''}
-                    onChange={(event) => handleAccountChange(tx.id, event.target.value)}
+                  <BankSelect
+                    accounts={accounts}
+                    value={tx.accountId === null ? '' : String(tx.accountId)}
+                    onValueChange={(value) => handleAccountChange(tx.id, value)}
                     disabled={updatingId === tx.id}
-                    aria-label={`Bank account for ${tx.description}`}
-                    className="rounded-lg border-0 bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600 outline-none transition focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50"
-                  >
-                    <option value="">Unassigned</option>
-                    {accounts.map((account) => (
-                      <option key={account.id} value={account.id}>{account.name}</option>
-                    ))}
-                  </select>
+                    ariaLabel={`Bank account for ${tx.description}`}
+                    emptyLabel="Unassigned"
+                    compact
+                  />
                 ) : (
                   'Unassigned'
                 )}

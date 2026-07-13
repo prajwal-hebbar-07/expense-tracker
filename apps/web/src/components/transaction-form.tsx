@@ -5,12 +5,14 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
 import type { AccountWithStats } from '@/lib/accounts';
+import { BankSelect } from '@/components/bank-select';
 
 const inputClass = 'field w-full';
 
 export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) {
   const router = useRouter();
   const [type, setType] = useState<'debit' | 'credit'>('debit');
+  const [accountId, setAccountId] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,6 +47,7 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
 
     form.reset();
     setType('debit');
+    setAccountId('');
     router.refresh();
   }
 
@@ -83,12 +86,13 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
             Bank account
           </label>
           {accounts.length > 0 ? (
-            <select id="accountId" name="accountId" required className={inputClass} defaultValue="">
-              <option value="" disabled>Choose an account</option>
-              {accounts.map((account) => (
-                <option key={account.id} value={account.id}>{account.name}</option>
-              ))}
-            </select>
+            <BankSelect
+              accounts={accounts}
+              value={accountId}
+              onValueChange={setAccountId}
+              name="accountId"
+              ariaLabel="Bank account for new transaction"
+            />
           ) : (
             <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
               Add a bank account in{' '}
@@ -148,7 +152,7 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
 
         <button
           type="submit"
-          disabled={submitting || accounts.length === 0}
+          disabled={submitting || accounts.length === 0 || !accountId}
           className="primary-button mt-1 w-full"
         >
           {submitting ? 'Saving…' : `Add ${type}`}

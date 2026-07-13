@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import type { AccountWithStats } from '@/lib/accounts';
+import { BankSelect } from '@/components/bank-select';
 
 const fieldClass =
   'field !py-2';
@@ -35,17 +36,14 @@ export function FilterBar({ accounts }: { accounts: AccountWithStats[] }) {
       </select>
 
       {accounts.length > 0 && (
-        <select
-          aria-label="Filter by bank account"
+        <BankSelect
+          accounts={accounts}
           value={searchParams.get('account') ?? ''}
-          onChange={(event) => setParam('account', event.target.value)}
-          className={fieldClass}
-        >
-          <option value="">All banks</option>
-          {accounts.map((account) => (
-            <option key={account.id} value={account.id}>{account.name}</option>
-          ))}
-        </select>
+          onValueChange={(value) => setParam('account', value)}
+          emptyLabel="All banks"
+          ariaLabel="Filter by bank account"
+          compact
+        />
       )}
 
       <label className="flex items-center gap-2 text-sm text-slate-500">

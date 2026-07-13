@@ -25,8 +25,20 @@ npm install
 ### Running the Application
 
 ```bash
-npm start
+pnpm dev
 ```
+
+### Resetting the Database
+
+To remove all bank accounts, transactions, and categories and start with an
+empty database:
+
+```bash
+pnpm db:reset
+```
+
+This keeps the SQLite database and schema in place. Run `pnpm seed` afterward
+if you want to restore the sample transactions.
 
 ## Project Structure
 
