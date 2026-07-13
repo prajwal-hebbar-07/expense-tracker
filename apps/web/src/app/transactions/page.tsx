@@ -1,7 +1,6 @@
 import { CategorizeButton } from '@/components/categorize-button';
 import { FilterBar } from '@/components/filter-bar';
 import { SummaryCards } from '@/components/summary-cards';
-import { TransactionForm } from '@/components/transaction-form';
 import { TransactionList } from '@/components/transaction-list';
 import { getAccountOverview } from '@/lib/accounts';
 import { getTransactions, summarize, transactionFilterSchema } from '@/lib/transactions';
@@ -50,21 +49,18 @@ export default async function TransactionsPage({
           balanceLabel={selectedAccount ? `${selectedAccount.name} balance` : 'Combined balance'}
         />
 
-        <div className="grid min-w-0 grid-cols-1 items-start gap-6 xl:grid-cols-[380px_minmax(0,1fr)]">
-          <TransactionForm accounts={accountOverview.accounts} />
-          <div className="min-w-0 space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h2 className="text-base font-semibold text-slate-100">Recent activity</h2>
-                <p className="mt-0.5 text-xs text-slate-500">Filter or update your recorded transactions</p>
-              </div>
+        <section className="min-w-0 space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-base font-semibold text-slate-100">Transaction history</h2>
+              <p className="mt-0.5 text-xs text-slate-500">Filter, reassign, or remove recorded transactions</p>
             </div>
-            <div className="surface flex flex-wrap items-center justify-between gap-3 p-3">
-              <FilterBar accounts={accountOverview.accounts} />
-            </div>
-            <TransactionList transactions={rows} accounts={accountOverview.accounts} />
           </div>
-        </div>
+          <div className="surface flex flex-wrap items-center justify-between gap-3 p-3">
+            <FilterBar accounts={accountOverview.accounts} />
+          </div>
+          <TransactionList transactions={rows} accounts={accountOverview.accounts} />
+        </section>
       </div>
     </div>
   );

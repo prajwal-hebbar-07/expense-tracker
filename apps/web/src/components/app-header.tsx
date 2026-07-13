@@ -39,6 +39,7 @@ function NavLink({ href, label, icon: Icon, active }: (typeof mobileLinks)[numbe
 
 export function AppHeader() {
   const pathname = usePathname();
+  const adding = pathname.startsWith('/add');
 
   return (
     <>
@@ -53,7 +54,7 @@ export function AppHeader() {
           </span>
         </Link>
 
-        <Link href="/transactions#new-transaction" className="primary-button mt-7 w-full">
+        <Link href="/add" aria-current={adding ? 'page' : undefined} className="primary-button mt-7 w-full">
           <Plus className="h-4 w-4" />
           New expense
         </Link>
@@ -82,9 +83,9 @@ export function AppHeader() {
           </span>
           <span className="text-sm font-semibold text-slate-50">Ledger</span>
         </Link>
-        <Link href="/transactions#new-transaction" className="primary-button !px-3 !py-2">
-          <Plus className="h-4 w-4" />
-          Add
+        <Link href={adding ? '/transactions' : '/add'} className={adding ? 'secondary-button !px-3 !py-2' : 'primary-button !px-3 !py-2'}>
+          {adding ? <ReceiptText className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          {adding ? 'Transactions' : 'Add'}
         </Link>
       </header>
 

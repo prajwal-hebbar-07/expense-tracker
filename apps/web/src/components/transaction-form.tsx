@@ -20,6 +20,7 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
   const [accountId, setAccountId] = useState(preferredAccount ? String(preferredAccount.id) : '');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,6 +28,7 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
     const data = new FormData(form);
     setSubmitting(true);
     setError(null);
+    setSaved(null);
 
     const response = await fetch('/api/transactions', {
       method: 'POST',
@@ -51,6 +53,7 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
     }
 
     form.reset();
+    setSaved(type === 'debit' ? 'Expense added successfully.' : 'Income added successfully.');
     setType('debit');
     requestAnimationFrame(() => form.querySelector<HTMLInputElement>('#amount')?.focus());
     router.refresh();
@@ -59,8 +62,7 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
   return (
     <form
       onSubmit={handleSubmit}
-      id="new-transaction"
-      className="surface scroll-mt-24 overflow-hidden xl:sticky xl:top-8"
+      className="surface overflow-hidden"
     >
       <div className="border-b border-white/[0.06] px-5 py-5 sm:px-6">
         <div className="flex items-center gap-3">
@@ -150,6 +152,7 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
         </div>
 
         {error && <p className="text-sm text-rose-400">{error}</p>}
+        {saved && <p role="status" className="text-sm text-emerald-400">{saved}</p>}
 
         <button
           type="submit"

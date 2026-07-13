@@ -37,7 +37,7 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000). The root URL redirects to
-the Transactions page.
+the dedicated Add transaction page.
 
 For a clean first run:
 
@@ -92,7 +92,9 @@ and become unassigned.
 
 ### Transactions
 
-The **Transactions** page is the main workspace. A transaction contains:
+The **Add transaction** page is the focused entry workspace. Adding transactions
+is kept separate from browsing and maintaining transaction history. A
+transaction contains:
 
 - Type: expense or income
 - Amount
@@ -104,6 +106,7 @@ The **Transactions** page is the main workspace. A transaction contains:
 The bank with the most recorded transactions is selected by default. The
 selected bank remains active after saving so repeated entries are quicker.
 
+The **Transactions** page contains only balances and transaction history.
 Existing transactions can be filtered by type, bank, and date range. Their bank
 can also be reassigned from the transaction list. Deleting a transaction updates
 all balances, summaries, analytics, and reports immediately.
@@ -262,7 +265,8 @@ Important application routes:
 
 | Route | Purpose |
 | --- | --- |
-| `/transactions` | Add, filter, reassign, and delete transactions. |
+| `/add` | Record a new expense or income entry. |
+| `/transactions` | Filter, reassign, and delete transaction history. |
 | `/analytics` | Review category-level spending. |
 | `/reports` | Review monthly, bank-level, and consolidated reports. |
 | `/advice` | Request AI-generated savings guidance. |
