@@ -14,9 +14,7 @@ export default function AdvicePage() {
       <div className="mx-auto max-w-5xl space-y-7">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
-              Personal guidance
-            </p>
+            <p className="eyebrow">Occasional review</p>
             <h1 className="page-heading">Savings advice</h1>
             <p className="page-description">
               AI-powered suggestions to change your spending cycle and save more

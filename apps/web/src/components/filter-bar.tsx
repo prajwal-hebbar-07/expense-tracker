@@ -28,7 +28,7 @@ export function FilterBar({ accounts }: { accounts: AccountWithStats[] }) {
         aria-label="Filter by type"
         value={searchParams.get('type') ?? ''}
         onChange={(e) => setParam('type', e.target.value)}
-        className={fieldClass}
+        className={`${fieldClass} appearance-none pr-8`}
       >
         <option value="">All types</option>
         <option value="debit">Debits</option>
@@ -70,7 +70,7 @@ export function FilterBar({ accounts }: { accounts: AccountWithStats[] }) {
         <button
           type="button"
           onClick={() => router.replace(pathname)}
-          className="px-2 text-sm font-medium text-slate-500 transition hover:text-slate-900"
+          className="px-2 text-sm font-medium text-slate-500 transition hover:text-slate-200"
         >
           Clear filters
         </button>

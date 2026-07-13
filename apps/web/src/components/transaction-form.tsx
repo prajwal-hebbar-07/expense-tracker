@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ArrowDownLeft, ArrowUpRight, Plus } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 
 import type { AccountWithStats } from '@/lib/accounts';
@@ -11,8 +12,12 @@ const inputClass = 'field w-full';
 
 export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) {
   const router = useRouter();
+  const preferredAccount = accounts.reduce<AccountWithStats | null>(
+    (current, account) => !current || account.transactionCount > current.transactionCount ? account : current,
+    null,
+  );
   const [type, setType] = useState<'debit' | 'credit'>('debit');
-  const [accountId, setAccountId] = useState('');
+  const [accountId, setAccountId] = useState(preferredAccount ? String(preferredAccount.id) : '');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,81 +52,74 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
 
     form.reset();
     setType('debit');
-    setAccountId('');
+    requestAnimationFrame(() => form.querySelector<HTMLInputElement>('#amount')?.focus());
     router.refresh();
   }
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="surface p-5 sm:p-6 lg:sticky lg:top-24"
+      id="new-transaction"
+      className="surface scroll-mt-24 overflow-hidden xl:sticky xl:top-8"
     >
-      <div className="mb-5">
-        <h2 className="text-base font-semibold text-slate-950">Add transaction</h2>
-        <p className="mt-1 text-sm text-slate-500">Record money in or out of your account.</p>
+      <div className="border-b border-white/[0.06] px-5 py-5 sm:px-6">
+        <div className="flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-400/10 text-emerald-400">
+            <Plus className="h-5 w-5" />
+          </span>
+          <div>
+            <h2 className="text-base font-semibold text-slate-50">Record transaction</h2>
+            <p className="mt-0.5 text-xs text-slate-500">Usually takes less than 10 seconds</p>
+          </div>
+        </div>
       </div>
 
-      <div className="mb-5 grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1">
+      <div className="p-5 sm:p-6">
+      <div className="mb-6 grid grid-cols-2 gap-1 rounded-xl bg-black/25 p-1">
         {(['debit', 'credit'] as const).map((option) => (
           <button
             key={option}
             type="button"
             onClick={() => setType(option)}
-            className={`rounded-lg px-3 py-2 text-sm font-medium capitalize transition ${
+            className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition ${
               type === option
                 ? option === 'debit'
-                  ? 'bg-white text-rose-600 shadow-sm'
-                  : 'bg-white text-emerald-700 shadow-sm'
-                : 'text-slate-500 hover:text-slate-900'
+                  ? 'bg-[#1b2029] text-rose-400 shadow-sm'
+                  : 'bg-[#1b2029] text-emerald-400 shadow-sm'
+                : 'text-slate-600 hover:text-slate-300'
             }`}
           >
-            {option}
+            {option === 'debit' ? <ArrowUpRight className="h-4 w-4" /> : <ArrowDownLeft className="h-4 w-4" />}
+            {option === 'debit' ? 'Expense' : 'Income'}
           </button>
         ))}
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div>
-          <label htmlFor="accountId" className="mb-1 block text-sm font-medium">
-            Bank account
-          </label>
-          {accounts.length > 0 ? (
-            <BankSelect
-              accounts={accounts}
-              value={accountId}
-              onValueChange={setAccountId}
-              name="accountId"
-              ariaLabel="Bank account for new transaction"
-            />
-          ) : (
-            <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
-              Add a bank account in{' '}
-              <Link href="/settings" className="font-semibold underline underline-offset-4">Settings</Link>{' '}
-              before recording transactions.
-            </div>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="amount" className="mb-1 block text-sm font-medium">
+          <label htmlFor="amount" className="mb-1.5 block text-xs font-medium text-slate-400">
             Amount
           </label>
-          <input
-            id="amount"
-            name="amount"
-            type="number"
-            inputMode="decimal"
-            step="0.01"
-            min="0.01"
-            required
-            placeholder="0.00"
-            className={inputClass}
-          />
+          <div className="relative">
+            <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-xl font-medium text-slate-600">₹</span>
+            <input
+              id="amount"
+              name="amount"
+              type="number"
+              inputMode="decimal"
+              step="0.01"
+              min="0.01"
+              required
+              autoFocus
+              placeholder="0.00"
+              className="field w-full !py-3.5 !pl-9 text-xl font-semibold tracking-tight"
+            />
+          </div>
         </div>
 
         <div>
-          <label htmlFor="description" className="mb-1 block text-sm font-medium">
-            Description
+          <label htmlFor="description" className="mb-1.5 block text-xs font-medium text-slate-400">
+            What was it for?
           </label>
           <input
             id="description"
@@ -129,34 +127,39 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
             type="text"
             required
             maxLength={500}
-            placeholder="e.g. Groceries at DMart"
+            placeholder="Groceries, fuel, rent…"
             className={inputClass}
           />
         </div>
 
-        <div>
-          <label htmlFor="date" className="mb-1 block text-sm font-medium">
-            Date
-          </label>
-          <input
-            id="date"
-            name="date"
-            type="date"
-            required
-            defaultValue={new Date().toISOString().slice(0, 10)}
-            className={inputClass}
-          />
+        <div className="grid grid-cols-[minmax(0,1fr)_145px] gap-3">
+          <div className="min-w-0">
+            <label htmlFor="accountId" className="mb-1.5 block text-xs font-medium text-slate-400">Paid with</label>
+            {accounts.length > 0 ? (
+              <BankSelect accounts={accounts} value={accountId} onValueChange={setAccountId} name="accountId" ariaLabel="Bank account for new transaction" />
+            ) : (
+              <div className="rounded-xl border border-amber-400/15 bg-amber-400/[0.07] p-3 text-sm text-amber-300">
+                Add an account in <Link href="/settings" className="font-semibold underline underline-offset-4">Settings</Link> first.
+              </div>
+            )}
+          </div>
+          <div>
+            <label htmlFor="date" className="mb-1.5 block text-xs font-medium text-slate-400">Date</label>
+            <input id="date" name="date" type="date" required defaultValue={new Date().toISOString().slice(0, 10)} className={inputClass} />
+          </div>
         </div>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-rose-400">{error}</p>}
 
         <button
           type="submit"
           disabled={submitting || accounts.length === 0 || !accountId}
-          className="primary-button mt-1 w-full"
+          className="primary-button mt-1 w-full !py-3"
         >
-          {submitting ? 'Saving…' : `Add ${type}`}
+          <Plus className="h-4 w-4" />
+          {submitting ? 'Saving…' : type === 'debit' ? 'Add expense' : 'Add income'}
         </button>
+      </div>
       </div>
     </form>
   );

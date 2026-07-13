@@ -27,16 +27,14 @@ export default async function TransactionsPage({
 
   return (
     <div className="page-shell">
-      <div className="space-y-7">
+      <div className="space-y-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
-              Cash flow
-            </p>
-            <h1 className="page-heading">Transactions</h1>
+            <p className="eyebrow">Your ledger</p>
+            <h1 className="page-heading">Money, at a glance</h1>
             <p className="page-description">
-            {summary.count} transaction{summary.count === 1 ? '' : 's'}
-            {filters.type || filters.account || filters.from || filters.to ? ' (filtered)' : ''}
+              {summary.count} transaction{summary.count === 1 ? '' : 's'} recorded
+              {filters.type || filters.account || filters.from || filters.to ? ' in this view' : ''}
             </p>
           </div>
           <CategorizeButton pendingCount={pendingCount} />
@@ -52,9 +50,15 @@ export default async function TransactionsPage({
           balanceLabel={selectedAccount ? `${selectedAccount.name} balance` : 'Combined balance'}
         />
 
-        <div className="grid min-w-0 grid-cols-1 items-start gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
+        <div className="grid min-w-0 grid-cols-1 items-start gap-6 xl:grid-cols-[380px_minmax(0,1fr)]">
           <TransactionForm accounts={accountOverview.accounts} />
           <div className="min-w-0 space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-base font-semibold text-slate-100">Recent activity</h2>
+                <p className="mt-0.5 text-xs text-slate-500">Filter or update your recorded transactions</p>
+              </div>
+            </div>
             <div className="surface flex flex-wrap items-center justify-between gap-3 p-3">
               <FilterBar accounts={accountOverview.accounts} />
             </div>

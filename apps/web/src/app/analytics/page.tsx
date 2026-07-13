@@ -26,9 +26,7 @@ export default function AnalyticsPage() {
       <div className="mx-auto max-w-5xl space-y-7">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
-              Spending patterns
-            </p>
+            <p className="eyebrow">Weekly review</p>
             <h1 className="page-heading">Analytics & insights</h1>
             <p className="page-description">
               Where your money goes, and how to keep more of it
@@ -39,13 +37,13 @@ export default function AnalyticsPage() {
 
         <CategoryBars items={items} />
 
-        <div className="rounded-xl border border-emerald-100 bg-emerald-50/70 px-4 py-3 text-sm text-emerald-950">
+        <div className="rounded-xl border border-emerald-400/10 bg-emerald-400/[0.06] px-4 py-3 text-sm text-slate-400">
           Looking for the full picture? See{' '}
-          <Link href="/reports" className="font-semibold underline decoration-emerald-300 underline-offset-4">
+          <Link href="/reports" className="font-semibold text-emerald-300 underline decoration-emerald-400/40 underline-offset-4">
             Reports
           </Link>{' '}
           for month-by-month numbers, or{' '}
-          <Link href="/advice" className="font-semibold underline decoration-emerald-300 underline-offset-4">
+          <Link href="/advice" className="font-semibold text-emerald-300 underline decoration-emerald-400/40 underline-offset-4">
             Advice
           </Link>{' '}
           for AI savings suggestions.

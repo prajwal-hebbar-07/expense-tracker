@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 
 import { AppHeader } from '@/components/app-header';
@@ -12,12 +12,16 @@ export const metadata: Metadata = {
   description: 'A clear, simple view of your everyday finances',
 };
 
+export const viewport: Viewport = {
+  themeColor: '#090d13',
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
         <AppHeader />
-        <main>{children}</main>
+        <main className="lg:pl-64">{children}</main>
       </body>
     </html>
   );

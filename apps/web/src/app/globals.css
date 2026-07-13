@@ -4,22 +4,22 @@
 
 @layer base {
   :root {
-    color-scheme: light;
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
-    --border: 214 24% 90%;
-    --input: 214 24% 86%;
-    --ring: 158 64% 38%;
-    --primary: 158 64% 34%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 24% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --destructive: 0 72% 51%;
+    color-scheme: dark;
+    --background: 222 28% 6%;
+    --foreground: 210 20% 96%;
+    --border: 217 19% 18%;
+    --input: 217 19% 20%;
+    --ring: 158 64% 52%;
+    --primary: 158 64% 48%;
+    --primary-foreground: 222 28% 6%;
+    --secondary: 218 22% 12%;
+    --secondary-foreground: 210 20% 96%;
+    --destructive: 0 72% 56%;
     --destructive-foreground: 0 0% 100%;
-    --muted: 210 24% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 152 45% 94%;
-    --accent-foreground: 158 64% 24%;
+    --muted: 218 22% 12%;
+    --muted-foreground: 215 13% 60%;
+    --accent: 160 35% 14%;
+    --accent-foreground: 158 64% 72%;
   }
 
   * {
@@ -32,11 +32,14 @@
 
   body {
     @apply min-h-screen bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at 82% -10%, rgba(16, 185, 129, 0.08), transparent 30rem),
+      linear-gradient(180deg, #080b11 0%, #090c12 100%);
   }
 
   ::selection {
-    background: hsl(152 45% 86%);
-    color: hsl(var(--foreground));
+    background: rgba(52, 211, 153, 0.28);
+    color: #f8fafc;
   }
 
   input,
@@ -44,34 +47,52 @@
   button {
     font: inherit;
   }
+
+  input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+    opacity: 0.65;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 @layer components {
   .page-shell {
-    @apply mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8;
+    @apply mx-auto w-full max-w-[1440px] px-4 pb-28 pt-6 sm:px-6 sm:pt-8 lg:px-10 lg:pb-10 lg:pt-10;
   }
 
   .page-heading {
-    @apply text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl;
+    @apply text-2xl font-semibold tracking-[-0.03em] text-slate-50 sm:text-3xl;
   }
 
   .page-description {
-    @apply mt-1.5 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base;
+    @apply mt-1.5 max-w-2xl text-sm leading-6 text-slate-400;
+  }
+
+  .eyebrow {
+    @apply mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-400;
   }
 
   .surface {
-    @apply rounded-2xl border border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.03),0_8px_24px_rgba(15,23,42,0.035)];
+    @apply rounded-2xl border border-white/[0.07] bg-[#10151d] shadow-[0_18px_55px_rgba(0,0,0,0.18)];
   }
 
   .field {
-    @apply rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10;
+    @apply rounded-xl border border-white/[0.08] bg-[#0b1017] px-3 py-2.5 text-sm text-slate-100 shadow-inner shadow-black/10 outline-none transition placeholder:text-slate-600 hover:border-white/[0.14] focus:border-emerald-500/70 focus:ring-4 focus:ring-emerald-500/10;
   }
 
   .primary-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-600/15 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-400 px-4 py-2.5 text-sm font-semibold text-[#07110d] shadow-[0_8px_24px_rgba(52,211,153,0.15)] transition hover:bg-emerald-300 focus:outline-none focus:ring-4 focus:ring-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-40;
   }
 
   .secondary-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm font-semibold text-slate-300 transition hover:border-white/[0.14] hover:bg-white/[0.07] hover:text-white focus:outline-none focus:ring-4 focus:ring-white/[0.05] disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .table-heading {
+    @apply border-b border-white/[0.06] bg-white/[0.025] text-left text-[11px] uppercase tracking-[0.12em] text-slate-500;
   }
 }

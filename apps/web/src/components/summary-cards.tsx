@@ -21,38 +21,38 @@ export function SummaryCards({
     {
       label: 'Money in',
       value: summary.credit,
-      tone: 'text-emerald-700',
+      tone: 'text-emerald-400',
       icon: ArrowDownLeft,
-      iconTone: 'bg-emerald-50 text-emerald-700',
+      iconTone: 'bg-emerald-400/10 text-emerald-400',
     },
     {
       label: 'Money out',
       value: summary.debit,
-      tone: 'text-rose-600',
+      tone: 'text-rose-400',
       icon: ArrowUpRight,
-      iconTone: 'bg-rose-50 text-rose-600',
+      iconTone: 'bg-rose-400/10 text-rose-400',
     },
     {
       label: balanceLabel,
       value: balance ?? summary.balance,
-      tone: (balance ?? summary.balance) >= 0 ? 'text-slate-950' : 'text-rose-600',
+      tone: (balance ?? summary.balance) >= 0 ? 'text-slate-100' : 'text-rose-400',
       icon: Wallet,
-      iconTone: 'bg-slate-100 text-slate-700',
+      iconTone: 'bg-white/[0.06] text-slate-400',
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
       {cards.map((card) => {
         const Icon = card.icon;
         return (
         <div
           key={card.label}
-          className="surface flex items-center justify-between gap-4 p-5"
+          className="surface flex items-center justify-between gap-4 p-4 sm:p-5"
         >
           <div>
-            <p className="text-sm font-medium text-slate-500">{card.label}</p>
-            <p className={`mt-1.5 text-2xl font-semibold tracking-tight ${card.tone}`}>
+            <p className="text-xs font-medium text-slate-500">{card.label}</p>
+            <p className={`mt-1.5 text-xl font-semibold tracking-tight sm:text-2xl ${card.tone}`}>
               {formatAmount(card.value)}
             </p>
           </div>

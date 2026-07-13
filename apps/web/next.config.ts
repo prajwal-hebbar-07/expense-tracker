@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const config: NextConfig = {
+  // CI and local verification can use a separate output directory without
+  // overwriting the assets of a running development server.
+  distDir: process.env.NEXT_DIST_DIR ?? ".next",
   reactStrictMode: true,
   transpilePackages: ["@expense-tracker/db"],
   serverExternalPackages: ["better-sqlite3"],

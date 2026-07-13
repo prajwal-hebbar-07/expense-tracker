@@ -10,9 +10,7 @@ export default function SettingsPage() {
     <div className="page-shell">
       <div className="mx-auto max-w-5xl space-y-7">
         <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
-            Your banks
-          </p>
+          <p className="eyebrow">Your banks</p>
           <h1 className="page-heading">Accounts</h1>
           <p className="page-description">
             Add your bank accounts, keep their balances current, and track spending for

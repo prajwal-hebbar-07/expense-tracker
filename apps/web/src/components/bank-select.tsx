@@ -96,17 +96,17 @@ export function BankSelect({
         onKeyDown={handleKeyDown}
         className={
           compact
-            ? 'inline-flex min-w-28 items-center justify-between gap-2 rounded-lg bg-slate-100 px-2.5 py-1.5 text-left text-xs font-medium text-slate-600 outline-none transition hover:bg-slate-200/70 focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50'
+            ? 'inline-flex min-w-28 items-center justify-between gap-2 rounded-lg border border-white/[0.06] bg-white/[0.04] px-2.5 py-1.5 text-left text-xs font-medium text-slate-400 outline-none transition hover:bg-white/[0.07] focus:ring-2 focus:ring-emerald-400/20 disabled:opacity-50'
             : 'field flex w-full items-center justify-between gap-3 text-left'
         }
       >
         <span className="flex min-w-0 items-center gap-2">
-          <Landmark className={`${compact ? 'h-3.5 w-3.5' : 'h-4 w-4'} shrink-0 text-emerald-700`} />
-          <span className={`truncate ${selected ? 'text-slate-800' : 'text-slate-400'}`}>
+          <Landmark className={`${compact ? 'h-3.5 w-3.5' : 'h-4 w-4'} shrink-0 text-emerald-400`} />
+          <span className={`truncate ${selected ? 'text-slate-200' : 'text-slate-600'}`}>
             {selected?.label ?? placeholder}
           </span>
         </span>
-        <ChevronDown className={`h-4 w-4 shrink-0 text-slate-400 transition ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`h-4 w-4 shrink-0 text-slate-600 transition ${open ? 'rotate-180' : ''}`} />
       </button>
 
       {open && (
@@ -114,7 +114,7 @@ export function BankSelect({
           id={listboxId}
           role="listbox"
           aria-label={ariaLabel}
-          className="absolute left-0 z-50 mt-1.5 max-h-64 min-w-full overflow-y-auto rounded-xl border border-slate-200 bg-white p-1.5 shadow-[0_16px_40px_rgba(15,23,42,0.14)]"
+          className="absolute left-0 z-50 mt-1.5 max-h-64 min-w-full overflow-y-auto rounded-xl border border-white/[0.1] bg-[#171c25] p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
         >
           {options.map((option, index) => {
             const isSelected = option.value === value;
@@ -128,14 +128,14 @@ export function BankSelect({
                 onMouseEnter={() => setActiveIndex(index)}
                 onClick={() => choose(option.value)}
                 className={`flex w-full items-center justify-between gap-4 rounded-lg px-3 py-2 text-left text-sm transition ${
-                  isActive ? 'bg-emerald-50 text-emerald-900' : 'text-slate-700 hover:bg-slate-50'
+                  isActive ? 'bg-emerald-400/10 text-emerald-200' : 'text-slate-300 hover:bg-white/[0.05]'
                 }`}
               >
                 <span className="flex items-center gap-2 whitespace-nowrap">
-                  <Landmark className="h-4 w-4 text-emerald-700" />
+                  <Landmark className="h-4 w-4 text-emerald-400" />
                   {option.label}
                 </span>
-                {isSelected && <Check className="h-4 w-4 text-emerald-700" />}
+                {isSelected && <Check className="h-4 w-4 text-emerald-400" />}
               </button>
             );
           })}
