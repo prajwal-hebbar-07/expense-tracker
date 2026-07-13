@@ -62,7 +62,7 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
   return (
     <form
       onSubmit={handleSubmit}
-      className="surface overflow-hidden"
+      className="surface"
     >
       <div className="border-b border-white/[0.06] px-5 py-5 sm:px-6">
         <div className="flex items-center gap-3">

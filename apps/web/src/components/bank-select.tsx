@@ -114,7 +114,7 @@ export function BankSelect({
           id={listboxId}
           role="listbox"
           aria-label={ariaLabel}
-          className="absolute left-0 z-50 mt-1.5 max-h-64 min-w-full overflow-y-auto rounded-xl border border-white/[0.1] bg-[#171c25] p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+          className="absolute left-0 z-50 mt-1.5 max-h-64 min-w-full overscroll-contain overflow-y-auto rounded-xl border border-white/[0.1] bg-[#171c25] p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
         >
           {options.map((option, index) => {
             const isSelected = option.value === value;
