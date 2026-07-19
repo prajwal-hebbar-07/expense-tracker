@@ -36,7 +36,7 @@ Start the development server:
 pnpm dev
 ```
 
-Open [http://localhost:47830](http://localhost:47830). The root URL redirects to
+Open [http://expense.hebbars.in](http://expense.hebbars.in). The root URL redirects to
 the dedicated Add transaction page.
 
 For a clean first run:
