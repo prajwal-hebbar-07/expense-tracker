@@ -7,8 +7,8 @@ import {
   Plus,
   ReceiptText,
   Settings2,
-  WalletCards,
 } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -45,9 +45,7 @@ export function AppHeader() {
     <>
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-white/[0.06] bg-[#090d13]/95 px-4 py-5 backdrop-blur-xl lg:flex">
         <Link href="/transactions" className="flex items-center gap-3 px-2" aria-label="Ledger transactions">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-400 text-[#07110d] shadow-[0_0_28px_rgba(52,211,153,0.16)]">
-            <WalletCards className="h-[18px] w-[18px]" strokeWidth={2.3} />
-          </span>
+          <Image src="/ledger.svg" alt="" width={36} height={36} className="shadow-[0_0_28px_rgba(52,211,153,0.16)]" />
           <span>
             <span className="block text-[15px] font-semibold tracking-tight text-slate-50">Ledger</span>
             <span className="block text-[11px] text-slate-600">Personal finance</span>
@@ -78,9 +76,7 @@ export function AppHeader() {
 
       <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-white/[0.06] bg-[#090d13]/90 px-4 backdrop-blur-xl lg:hidden">
         <Link href="/transactions" className="flex items-center gap-2.5">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-400 text-[#07110d]">
-            <WalletCards className="h-4 w-4" strokeWidth={2.3} />
-          </span>
+          <Image src="/ledger.svg" alt="" width={32} height={32} />
           <span className="text-sm font-semibold text-slate-50">Ledger</span>
         </Link>
         <Link href={adding ? '/transactions' : '/add'} className={adding ? 'secondary-button !px-3 !py-2' : 'primary-button !px-3 !py-2'}>

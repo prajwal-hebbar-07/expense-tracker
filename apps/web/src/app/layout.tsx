@@ -10,6 +10,7 @@ const inter = Inter({ subsets: ['latin'], display: 'swap' });
 export const metadata: Metadata = {
   title: 'Ledger — Expense Tracker',
   description: 'A clear, simple view of your everyday finances',
+  icons: { icon: '/ledger.svg' },
 };
 
 export const viewport: Viewport = {
