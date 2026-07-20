@@ -14,6 +14,7 @@ export const transactions = sqliteTable('transactions', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   amount: real('amount').notNull(),
   type: text('type', { enum: ['debit', 'credit'] }).notNull(),
+  title: text('title').notNull(),
   description: text('description').notNull(),
   date: text('date').notNull(),
   category: text('category'),

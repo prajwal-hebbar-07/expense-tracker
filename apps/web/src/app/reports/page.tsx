@@ -176,7 +176,7 @@ export default function ReportsPage() {
                 className="flex items-center justify-between gap-4 border-b border-white/[0.05] py-3 text-sm first:pt-0 last:border-0 last:pb-0"
               >
                 <div>
-                  <span className="font-medium">{tx.description}</span>
+                  <span className="font-medium">{tx.title}</span>
                   <span className="ml-2 text-xs text-muted-foreground">
                     {formatDate(tx.date)}
                     {tx.category ? ` · ${tx.category}` : ''}

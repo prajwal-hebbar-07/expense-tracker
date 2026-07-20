@@ -37,6 +37,7 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
         amount: data.get('amount'),
         type,
         accountId: data.get('accountId'),
+        title: data.get('title'),
         description: data.get('description'),
         date: data.get('date'),
       }),
@@ -120,17 +121,32 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
         </div>
 
         <div>
-          <label htmlFor="description" className="mb-1.5 block text-xs font-medium text-slate-400">
-            {type === 'debit' ? 'What was it for, and why?' : 'What was it for?'}
+          <label htmlFor="title" className="mb-1.5 block text-xs font-medium text-slate-400">
+            Title
           </label>
           <input
-            id="description"
-            name="description"
+            id="title"
+            name="title"
             type="text"
             required
-            maxLength={500}
-            placeholder={type === 'debit' ? 'What you bought and why it was needed…' : 'Salary, refund, freelance work…'}
+            maxLength={100}
+            placeholder={type === 'debit' ? 'Groceries, rent, dinner…' : 'Salary, refund, freelance…'}
             className={inputClass}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="description" className="mb-1.5 block text-xs font-medium text-slate-400">
+            Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            required
+            maxLength={2000}
+            rows={4}
+            placeholder="Add the complete details…"
+            className={`${inputClass} resize-y`}
           />
           {type === 'debit' && (
             <p className="mt-1.5 text-xs text-slate-600">

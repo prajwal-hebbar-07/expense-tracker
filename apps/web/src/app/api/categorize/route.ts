@@ -44,7 +44,7 @@ export async function POST() {
   }
 
   const lines = pending
-    .map((tx) => `id=${tx.id} | ${tx.type} | ${tx.amount} | ${tx.description}`)
+    .map((tx) => `id=${tx.id} | ${tx.type} | ${tx.amount} | ${tx.title} | ${tx.description}`)
     .join('\n');
 
   try {

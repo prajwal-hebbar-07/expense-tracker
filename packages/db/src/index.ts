@@ -37,6 +37,7 @@ function createDb(): BetterSQLite3Database {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       amount REAL NOT NULL,
       type TEXT NOT NULL,
+      title TEXT NOT NULL,
       description TEXT NOT NULL,
       date TEXT NOT NULL,
       category TEXT,
@@ -64,6 +65,10 @@ function createDb(): BetterSQLite3Database {
         throw error;
       }
     }
+  }
+  if (!transactionColumns.some((column) => column.name === 'title')) {
+    sqlite.exec("ALTER TABLE transactions ADD COLUMN title TEXT NOT NULL DEFAULT ''");
+    sqlite.exec('UPDATE transactions SET title = substr(description, 1, 100)');
   }
   return drizzle(sqlite);
 }

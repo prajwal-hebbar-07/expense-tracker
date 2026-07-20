@@ -15,7 +15,8 @@ export const newTransactionSchema = z.object({
   amount: z.coerce.number().positive('Amount must be greater than zero'),
   type: z.enum(['debit', 'credit']),
   accountId: z.coerce.number().int().positive('Choose a bank account'),
-  description: z.string().trim().min(1, 'Description is required').max(500),
+  title: z.string().trim().min(1, 'Title is required').max(100),
+  description: z.string().trim().min(1, 'Description is required').max(2000),
   date: isoDate.default(() => new Date().toISOString().slice(0, 10)),
 });
 

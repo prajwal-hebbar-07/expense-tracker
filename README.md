@@ -98,7 +98,8 @@ transaction contains:
 
 - Type: expense or income
 - Amount
-- Description
+- Short title (up to 100 characters)
+- Full description (up to 2,000 characters)
 - Bank account
 - Date
 - Category, when assigned by AI

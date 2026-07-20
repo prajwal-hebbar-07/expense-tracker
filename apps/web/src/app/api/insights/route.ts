@@ -67,7 +67,7 @@ export async function POST() {
 
   const recentLines = debits
     .slice(-30)
-    .map((tx) => `${tx.date} | ${tx.amount} | ${tx.category ?? '?'} | ${tx.description}`)
+    .map((tx) => `${tx.date} | ${tx.amount} | ${tx.category ?? '?'} | ${tx.title} | ${tx.description}`)
     .join('\n');
 
   try {
