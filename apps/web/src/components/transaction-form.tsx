@@ -121,7 +121,7 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
 
         <div>
           <label htmlFor="description" className="mb-1.5 block text-xs font-medium text-slate-400">
-            What was it for?
+            {type === 'debit' ? 'What was it for, and why?' : 'What was it for?'}
           </label>
           <input
             id="description"
@@ -129,9 +129,14 @@ export function TransactionForm({ accounts }: { accounts: AccountWithStats[] }) 
             type="text"
             required
             maxLength={500}
-            placeholder="Groceries, fuel, rent…"
+            placeholder={type === 'debit' ? 'What you bought and why it was needed…' : 'Salary, refund, freelance work…'}
             className={inputClass}
           />
+          {type === 'debit' && (
+            <p className="mt-1.5 text-xs text-slate-600">
+              More context helps improve your spending advice.
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-[minmax(0,1fr)_145px] gap-3">

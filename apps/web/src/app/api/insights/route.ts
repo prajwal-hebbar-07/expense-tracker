@@ -77,7 +77,8 @@ export async function POST() {
         'Give a short spending overview and 3-5 concrete, actionable suggestions to save ' +
         'money, grounded in the actual numbers provided. Estimate a realistic monthly ' +
         'saving in INR for each suggestion when possible (null when not applicable). ' +
-        'Be specific to the data, never generic.',
+        'Use the reasons stated in transaction descriptions to distinguish necessary ' +
+        'expenses from discretionary ones. Be specific to the data, never generic.',
       prompt:
         `Total income: ${totalCredit.toFixed(0)}\n` +
         `Total spending: ${totalDebit.toFixed(0)}\n\n` +
